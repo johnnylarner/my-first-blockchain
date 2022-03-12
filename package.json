@@ -1,5 +1,26 @@
 {
   "dependencies": {
     "config": "^3.3.7"
-  }
+  },
+  "name": "my_first_blockchain",
+  "description": "This project is an implementation in JavaScript of a blockchain.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnnylarner/my-first-blockchain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnnylarner/my-first-blockchain/issues"
+  },
+  "homepage": "https://github.com/johnnylarner/my-first-blockchain#readme"
 }
