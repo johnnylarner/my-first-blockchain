@@ -3,11 +3,8 @@ const config = require('config');
 const cryptoHash = require("./crypto-hash");
 
 describe('Block', () => {
- // Jest function with name of test
- // For each attribute of the block class
- // As well as the class itself
- // Lets setup some test data
-    const timestamp = 'a-date';
+    const MINE_RATE = config.get('mine-rate');
+    const timestamp = 2000;
     const lastHash = 'foo-bar';
     const hash = 'bar-foo';
     const data = ['blockchain', 'data'];
@@ -76,9 +73,29 @@ describe('Block', () => {
                 );
         });
 
+        it('adjusts the difficulty', () => {
+            const possibleResults = [lastBlock.difficulty+1, lastBlock.difficulty-1];
+
+            expect(possibleResults.includes(minedBlock.difficulty)).toBe(true);
+        });
+
         it('creates a `hash` meeting the diffculty criteria', () => {
             expect(minedBlock.hash.substring(0, [minedBlock.difficulty]))
                 .toEqual('0'.repeat(minedBlock.difficulty))
+        });
+    });
+
+    describe('adjustDifficulty()', () => {
+        it('raises the difficulty if a block is mined quickly', () => {
+            expect(Block.adjustDifficulty({
+                originalBlock: block, timestamp: block.timestamp + MINE_RATE - 100
+            })).toEqual(block.difficulty+1);
+        });
+        
+        it('lowers the difficulty if a block is mined slowly', () => {
+            expect(Block.adjustDifficulty({
+                originalBlock: block, timestamp: block.timestamp + MINE_RATE + 100
+            })).toEqual(block.difficulty-1);
         });
     });
 });
