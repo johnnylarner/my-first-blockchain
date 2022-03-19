@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "config": "^3.3.7"
+    "config": "^3.3.7",
+    "hex-to-binary": "^1.0.1"
   },
   "name": "my_first_blockchain",
   "description": "This project is an implementation in JavaScript of a blockchain.",

@@ -1,3 +1,4 @@
+const hexToBinary = require('hex-to-binary');
 const config = require('config');
 const cryptoHash = require('./crypto-hash');
 const MINE_RATE = config.get('mine-rate');
@@ -37,7 +38,7 @@ class Block {
                 difficulty
             );
 
-        } while (hash.substring('0', difficulty) !== '0'.repeat(difficulty));
+        } while (hexToBinary(hash).substring('0', difficulty) !== '0'.repeat(difficulty));
 
         return new this({
             timestamp,
@@ -51,6 +52,8 @@ class Block {
 
     static adjustDifficulty({ originalBlock, timestamp }) {
         const { difficulty } = originalBlock;
+
+        if (difficulty < 1) return 1;
 
         if ((timestamp - originalBlock.timestamp) > MINE_RATE) {
             return difficulty - 1;
