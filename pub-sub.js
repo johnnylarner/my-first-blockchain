@@ -44,12 +44,11 @@ class PubSub {
         
         this.subscriber.unsubscribe(channel);
         this.publisher.publish(channel, message)
-          .then((channel, message) => {
+          .then(() => {
             this.subscriber.subscribe(
                 channel, 
                 (message) => this.handleMessage(message, channel)
           )});
-
     }
 
     broadcastChain() {
