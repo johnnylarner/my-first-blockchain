@@ -40,6 +40,7 @@ const syncChain = () => {
                 console.log('syncing chain with', rootChain);
                 blockchain.replaceChain(rootChain)
             }
+            else console.log(error)
         });
 };
 
