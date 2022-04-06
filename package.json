@@ -7,7 +7,8 @@
     "hex-to-binary": "^1.0.1",
     "install": "^0.13.0",
     "redis": "^4.0.4",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "uuid": "^8.3.2"
   },
   "name": "my_first_blockchain",
   "description": "This project is an implementation in JavaScript of a blockchain.",
