@@ -1,7 +1,7 @@
 const hexToBinary = require('hex-to-binary');
 const Block = require("./block");
 const config = require('config');
-const cryptoHash = require("./crypto-hash");
+const cryptoHash = require("../util/crypto-hash");
 
 describe('Block', () => {
     const MINE_RATE = config.get('mine-rate');
