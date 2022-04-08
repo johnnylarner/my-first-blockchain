@@ -1,8 +1,5 @@
 const config = require('config');
-const { ec } = require('../util');
-const cryptoHash = require('../util/crypto-hash');
-const hexToBinary = require('hex-to-binary');
-const Signature = require('elliptic/lib/elliptic/ec/signature');
+const { ec, cryptoHash } = require('../util');
 
 class Wallet {
     constructor() {

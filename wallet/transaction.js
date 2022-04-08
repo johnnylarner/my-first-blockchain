@@ -1,4 +1,6 @@
+const { TimeSeriesReducers } = require('@node-redis/time-series/dist/commands');
 const uuid = require('uuid');
+const { verifySignature } = require('../util');
 
 class Transaction {
   constructor({ senderWallet, receivingAddress, amount }) {
@@ -25,6 +27,26 @@ class Transaction {
       address: senderWallet.publicKey,
       signature: senderWallet.sign(outputMap)
     };
+  };
+
+  static validTransaction(transaction) {
+
+    const { input: {address, amount, signature} , outputMap } = transaction;
+
+    const outputTotal = Object.values(outputMap)
+      .reduce((total, outputAmount) => total + outputAmount);
+
+    if ( outputTotal !== amount) {
+      console.error(`An invalid outputMap for a transaction was send from this address ${address}`);
+      return false;
+    }
+
+    if (! verifySignature({ publicKey: address,  data: outputMap, signature })) {
+      console.error(`An invalid signature was provided from this address ${address}`);
+      return false;
+    }
+
+    return true;
   };
 };
 
