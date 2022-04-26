@@ -94,4 +94,54 @@ describe('Transaction', () =>{
       });
     })
   });
+
+  describe('update()', () => {
+    let originalSenderOutput, originalSignature, currentRecipAmount, nextAmount, nextRecipient;
+    
+    beforeEach(() => {
+      originalSenderOutput = transaction.outputMap[senderWallet.publicKey];
+      originalSignature = transaction.input.signature;
+      currentRecipAmount = transaction.outputMap[receivingAddress];
+      nextAmount = 50;
+      nextRecipient = 'next-recip';
+
+      transaction.update({ senderWallet, receivingAddress: nextRecipient, amount: nextAmount});
+      transaction.update({ senderWallet, receivingAddress, amount: nextAmount});
+    });
+
+    describe('when the new amount exceeds the wallet balance', () => {
+      it('throws an error', () => {
+        expect(() => transaction.update( { senderWallet, receivingAddress, amount: 999_999_999}))
+          .toThrow('Insufficient funds to update the transaction.');
+      });
+    });
+
+    describe('when a valid amount is provided', () => {
+      it('subtracts the amount from the sender output amount balance', () => {
+        expect(transaction.outputMap[senderWallet.publicKey]).toEqual(originalSenderOutput - (2*nextAmount));
+      });
+
+      it('maintains a total output that matches the input amount', () => {
+        expect(Object.values(transaction.outputMap)
+          .reduce((total, outputAmount) => total + outputAmount))
+            .toEqual(transaction.input.amount);
+      });
+
+      it('resigns the signature', () => {
+        expect(transaction.input.signature).not.toEqual(originalSignature);
+      });
+
+      describe('and an existing address is updated', () => {
+        it('updates the `amount` to be sent.', () => {
+          expect(transaction.outputMap[receivingAddress]).toEqual(currentRecipAmount + nextAmount);
+        });
+      });
+      
+      describe('and a new address is added to the transaction', () => {
+        it('adds it to the `outputMap`', () => {
+          expect(transaction.outputMap[nextRecipient]).toEqual(nextAmount);
+        });
+      });
+    });
+  });
 });

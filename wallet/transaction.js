@@ -29,6 +29,23 @@ class Transaction {
     };
   };
 
+  update( { senderWallet, receivingAddress, amount }) {
+
+    if ( amount > this.outputMap[senderWallet.publicKey] ) {
+      throw new Error('Insufficient funds to update the transaction.');
+    };
+
+    if ( receivingAddress in this.outputMap) {
+      this.outputMap[receivingAddress] += amount;
+    }
+    else { this.outputMap[receivingAddress] = amount};
+
+    this.outputMap[senderWallet.publicKey] = 
+    this.outputMap[senderWallet.publicKey] - amount;
+    this.input = this.createInput({senderWallet, outputMap: this.outputMap});
+
+  }
+
   static validTransaction(transaction) {
 
     const { input: {address, amount, signature} , outputMap } = transaction;
