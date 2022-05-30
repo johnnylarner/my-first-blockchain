@@ -13,7 +13,7 @@ const DEFAULT_PORT = config.get('server.default-port');
 const DEFAULT_HOST = config.get('server.default-host');
 let PEER_PORT;
 
-const ROOT_NODE_ADDRESS = `http://${DEFAULT_HOST}${DEFAULT_PORT}`;
+const ROOT_NODE_ADDRESS = `http://${DEFAULT_HOST}:${DEFAULT_PORT}`;
 
 app.use(bodyParser.json());
 
@@ -40,7 +40,7 @@ const syncChain = () => {
                 console.log('syncing chain with', rootChain);
                 blockchain.replaceChain(rootChain)
             }
-            else console.log(error)
+            else console.log(error);
         });
 };
 

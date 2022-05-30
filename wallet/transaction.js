@@ -1,4 +1,3 @@
-const { TimeSeriesReducers } = require('@node-redis/time-series/dist/commands');
 const uuid = require('uuid');
 const { verifySignature } = require('../util');
 
@@ -32,6 +31,8 @@ class Transaction {
   update( { senderWallet, receivingAddress, amount }) {
 
     if ( amount > this.outputMap[senderWallet.publicKey] ) {
+      console.log(amount);
+      console.log(this.outputMap[senderWallet.publicKey]);
       throw new Error('Insufficient funds to update the transaction.');
     };
 

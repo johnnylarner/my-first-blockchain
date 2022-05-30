@@ -1,0 +1,17 @@
+{
+    "genesis-block" : {
+    "timestamp": 1,
+    "lastHash": "----",
+    "hash": "hash-one",
+    "difficulty": 3,
+    "nonce": 0,
+    "data": []
+    },
+
+    "mine-rate": 100,
+    "starting-balance": 100,
+    "server": {
+        "default-port": 3000,
+        "default-host": "localhost"
+    }
+}
